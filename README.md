@@ -1,45 +1,40 @@
-# Currency Converter 
+# 📈 Currency Analytics Telegram Bot & API
 
 ## 📝 Project Overview
-This is a specialized currency conversion web application built with **Java 25** and **Spring Boot**.
-Unlike standard converters that rely on general market rates, this project integrates with the **Google Sheets API**, using a private spreadsheet as a dynamic database. This allows users to manually manage exchange rates (e.g., specific bank rates with custom spreads/fees) in a familiar interface, while the backend automatically fetches and applies these updates.
+This is a currency tracking application and Telegram Bot built with **Java** and **Spring Boot**.
+The system automatically fetches daily exchange rates from a public Bank API, saves them locally in a relational database, and provides users with current rates and analytics. It features a fully functional REST API with pagination and a Telegram Bot interface for generating weekly analytical charts.
 
 ## 🛠 Tech Stack
-* **Language:** Java 25
+* **Language:** Java 21
 * **Framework:** Spring Boot 3.4+
+* **Database:** PostgreSQL + Spring Data JPA
+* **Bot API:** Telegram Bots Spring Boot Starter
+* **Charting:** XChart / JFreeChart
 * **Build Tool:** Maven
-* **External API:** Google Sheets API v4
-* **DevOps:** Docker & Docker Compose
-* **CI/CD:** GitHub Actions
 
 ## 🎯 Key Features
-* **Custom Rate Source:** Direct integration with Google Sheets for personalized rate management.
-* **Modern Java Implementation:** Utilizing `records` and latest Java features for clean, immutable data handling.
-* **DevOps Ready:** Designed for containerized environments and automated deployment.
+* **Automated Data Fetching:** Scheduled tasks to pull daily rates from a public Bank API.
+* **Telegram Bot Interface:** Simple commands to get current rates and weekly analytics charts.
+* **REST API:** Core CRUD API for currencies and exchange rates with pagination support.
+* **Local Storage:** Persistent data storage locally for analytical queries.
 
 ## 🏗 System Architecture
-The application follows a standard layered architecture:
-1.  **Client Layer:** REST API endpoints for conversion requests.
-2.  **Service Layer:** Business logic for currency calculation and Google Sheets data processing.
-3.  **Data Layer:** Integration with Google Cloud Platform via Service Account.
+1. **API / Bot Layer:** REST Controllers for basic entity management and Telegram Bot handlers.
+2. **Service Layer:** Business logic, Bank API integration, chart generation, and data processing.
+3. **Data Layer:** Spring Data JPA Repositories interacting with a relational database.
 
 ---
 
 ## 🛠 Roadmap
-- [x] **Phase 1: Initial Setup**
-    - Initialize Git repository.
-    - Setup Maven project structure (Java 25).
-    - Define Domain Model (`CurrencyRate` record).
-- [ ] **Phase 2: Google API Integration**
-    - Setup Google Cloud Console project.
-    - Implement Service Account authentication.
-    - Create Google Sheets client service.
-- [ ] **Phase 3: Core Logic**
-    - Implement conversion math service.
-    - Setup caching mechanism (to avoid Google API rate limits).
-- [ ] **Phase 4: Web Interface**
-    - Develop Spring Web REST Controllers.
-    - (Optional) Simple Thymeleaf or React frontend.
-- [ ] **Phase 5: DevOps & Deployment**
-    - Write `Dockerfile` and `docker-compose.yml`.
-    - Configure GitHub Actions for automated testing.
+- [ ] **Phase 1: Initial Setup & API Foundation (Current)**
+  - Setup Spring Boot project with Spring Data JPA & Web.
+  - Create related entities (`Currency` and `ExchangeRate`).
+  - Implement base API (Controllers, Services, Repositories).
+  - Add Pagination (`Pageable`) and basic CRUD (using `EntityManager.merge` for updates).
+- [ ] **Phase 2: External API & Scheduling**
+  - Integrate Open Bank API (RestTemplate / WebClient).
+  - Add `@Scheduled` jobs to update database daily.
+- [ ] **Phase 3: Telegram Bot & Analytics**
+  - Register bot via BotFather and integrate Telegram library.
+  - Implement weekly data aggregation.
+  - Generate visual charts and send them via the bot.

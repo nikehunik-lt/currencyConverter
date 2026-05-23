@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Exchange Rates</title>
+</head>
+<body>
+<h1>Exchange Rates</h1>
+<a th:href="@{/rates/add}">Add New Rate</a>
+<a th:href="@{/currencies}">Back to Currencies</a>
+
+<form th:action="@{/rates}" method="get" style="margin-top: 15px;">
+    <label for="currencyId">Filter by Currency:</label>
+    <select id="currencyId" name="currencyId">
+        <option value="">All</option>
+        <option th:each="c : ${currencies}" th:value="${c.id}" th:text="${c.code}"
+                th:selected="${c.id == selectedCurrencyId}"></option>
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
+<table border="1" style="margin-top: 15px;">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Buy Rate</th>
+        <th>Sell Rate</th>
+        <th>Currency</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="rate : ${rates}">
+        <td>
+            <a th:href="@{/rates/{id}(id=${rate.id})}" th:text="${rate.id}"></a>
+        </td>
+        <td th:text="${rate.date}"></td>
+        <td th:text="${rate.buyRate}"></td>
+        <td th:text="${rate.sellRate}"></td>
+        <td th:text="${rate.currency.code}"></td>
+        <td>
+            <a th:href="@{/rates/edit/{id}(id=${rate.id})}">Edit</a>
+            <form th:action="@{/rates/delete/{id}(id=${rate.id})}" method="post" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

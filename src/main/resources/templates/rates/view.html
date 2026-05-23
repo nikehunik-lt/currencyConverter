@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View Exchange Rate</title>
+</head>
+<body>
+<h1>Exchange Rate Details</h1>
+<p><strong>ID:</strong> <span th:text="${rate.id}"></span></p>
+<p><strong>Currency:</strong> <span th:text="${rate.currency.code}"></span></p>
+<p><strong>Date:</strong> <span th:text="${rate.date}"></span></p>
+<p><strong>Buy Rate:</strong> <span th:text="${rate.buyRate}"></span></p>
+<p><strong>Sell Rate:</strong> <span th:text="${rate.sellRate}"></span></p>
+<a th:href="@{/rates}">Back to list</a>
+<a th:href="@{/rates/edit/{id}(id=${rate.id})}">Edit</a>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${currencyDto.id == null} ? 'Add Currency' : 'Edit Currency'">Currency Form</title>
+    <style>
+        .error { color: red; font-size: 0.9em; display: block; }
+        .form-group { margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+<h1 th:text="${currencyDto.id == null} ? 'Add New Currency' : 'Edit Currency'">Currency Form</h1>
+
+<form th:action="@{/currencies/save}" th:object="${currencyDto}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="form-group">
+        <label for="code">Code (e.g., USD):</label>
+        <input type="text" id="code" th:field="*{code}" />
+        <span class="error" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" th:field="*{name}" />
+        <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+    </div>
+
+    <button type="submit">Save</button>
+    <a th:href="@{/currencies}">Cancel</a>
+</form>
+</body>
+</html>

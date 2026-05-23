@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Currencies</title>
+</head>
+<body>
+<h1>Currencies List</h1>
+<a th:href="@{/currencies/add}">Add New Currency</a>
+<a th:href="@{/rates}">Go to Exchange Rates</a>
+
+<form th:action="@{/currencies}" method="get" style="margin-top: 15px;">
+    <input type="text" name="search" placeholder="Search by code or name" th:value="${search}"/>
+    <button type="submit">Search</button>
+    <a th:href="@{/currencies}">Clear</a>
+</form>
+
+<table border="1" style="margin-top: 15px;">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="currency : ${currencies}">
+        <td><a th:href="@{/currencies/{id}(id=${currency.id})}" th:text="${currency.id}"></a></td>
+        <td th:text="${currency.code}"></td>
+        <td th:text="${currency.name}"></td>
+        <td>
+            <a th:href="@{/currencies/edit/{id}(id=${currency.id})}">Edit</a>
+            <form th:action="@{/currencies/delete/{id}(id=${currency.id})}" method="post" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
