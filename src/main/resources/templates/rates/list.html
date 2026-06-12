@@ -3,50 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>Exchange Rates</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<h1>Exchange Rates</h1>
-<a th:href="@{/rates/add}">Add New Rate</a>
-<a th:href="@{/currencies}">Back to Currencies</a>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-success">Exchange Rates</h1>
+        <div>
+            <a th:href="@{/rates/add}" class="btn btn-success">Add New Rate</a>
+            <a th:href="@{/currencies}" class="btn btn-outline-secondary">Back to Currencies</a>
+        </div>
+    </div>
 
-<form th:action="@{/rates}" method="get" style="margin-top: 15px;">
-    <label for="currencyId">Filter by Currency:</label>
-    <select id="currencyId" name="currencyId">
-        <option value="">All</option>
-        <option th:each="c : ${currencies}" th:value="${c.id}" th:text="${c.code}"
-                th:selected="${c.id == selectedCurrencyId}"></option>
-    </select>
-    <button type="submit">Filter</button>
-</form>
-
-<table border="1" style="margin-top: 15px;">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Date</th>
-        <th>Buy Rate</th>
-        <th>Sell Rate</th>
-        <th>Currency</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="rate : ${rates}">
-        <td>
-            <a th:href="@{/rates/{id}(id=${rate.id})}" th:text="${rate.id}"></a>
-        </td>
-        <td th:text="${rate.date}"></td>
-        <td th:text="${rate.buyRate}"></td>
-        <td th:text="${rate.sellRate}"></td>
-        <td th:text="${rate.currency.code}"></td>
-        <td>
-            <a th:href="@{/rates/edit/{id}(id=${rate.id})}">Edit</a>
-            <form th:action="@{/rates/delete/{id}(id=${rate.id})}" method="post" style="display:inline;">
-                <button type="submit">Delete</button>
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form th:action="@{/rates}" method="get" class="d-flex align-items-center">
+                <label for="currencyId" class="me-2 fw-bold mb-0">Filter by Currency:</label>
+                <select id="currencyId" name="currencyId" class="form-select w-auto me-2">
+                    <option value="">All</option>
+                    <option th:each="c : ${currencies}" th:value="${c.id}" th:text="${c.code}"
+                            th:selected="${c.id == selectedCurrencyId}"></option>
+                </select>
+                <button type="submit" class="btn btn-primary">Filter</button>
             </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Buy Rate</th>
+                        <th>Sell Rate</th>
+                        <th>Currency</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="rate : ${rates}">
+                        <td><a th:href="@{/rates/{id}(id=${rate.id})}" class="fw-bold" th:text="${rate.id}"></a></td>
+                        <td th:text="${rate.date}"></td>
+                        <td class="text-success fw-bold" th:text="${rate.buyRate}"></td>
+                        <td class="text-danger fw-bold" th:text="${rate.sellRate}"></td>
+                        <td><span class="badge bg-secondary" th:text="${rate.currency.code}"></span></td>
+                        <td class="text-end">
+                            <a th:href="@{/rates/edit/{id}(id=${rate.id})}" class="btn btn-sm btn-warning">Edit</a>
+                            <form th:action="@{/rates/delete/{id}(id=${rate.id})}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
