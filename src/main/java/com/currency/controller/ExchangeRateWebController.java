@@ -5,7 +5,9 @@ import com.currency.entity.ExchangeRate;
 import com.currency.service.CurrencyService;
 import com.currency.service.ExchangeRateService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,14 +26,27 @@ public class ExchangeRateWebController {
     }
 
     @GetMapping
-    public String listRates(@RequestParam(required = false) Long currencyId, Model model) {
+    public String listRates(
+            @RequestParam(required = false) Long currencyId,
+            @RequestParam(required = false, defaultValue = "id") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String sortDir,
+            Model model) {
+
+        Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(0, 10000, sort);
+
         if (currencyId != null) {
-            model.addAttribute("rates", rateService.getByCurrencyId(currencyId, Pageable.unpaged()).getContent());
+            model.addAttribute("rates", rateService.getByCurrencyId(currencyId, pageable).getContent());
         } else {
-            model.addAttribute("rates", rateService.getAll(Pageable.unpaged()).getContent());
+            model.addAttribute("rates", rateService.getAll(pageable).getContent());
         }
+
         model.addAttribute("currencies", currencyService.getAll(Pageable.unpaged()).getContent());
         model.addAttribute("selectedCurrencyId", currencyId);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         return "rates/list";
     }
 

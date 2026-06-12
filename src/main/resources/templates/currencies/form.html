@@ -3,40 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${currencyDto.id == null} ? 'Add Currency' : 'Edit Currency'">Currency Form</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body class="bg-light">
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0" th:text="${currencyDto.id == null} ? 'Add New Currency' : 'Edit Currency'">Currency Form</h3>
+<body class="bg-slate-950 text-slate-100 antialiased min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+<div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <h2 th:text="${currencyDto.id == null} ? 'Add New Currency ✨' : 'Edit Currency 🛠️'" class="text-center text-3xl font-bold tracking-tight text-white"></h2>
+    <p class="mt-2 text-center text-sm text-slate-400">Provide the asset parameters below 📝</p>
+</div>
+
+<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-slate-900 py-8 px-4 shadow-xl border border-slate-800 rounded-2xl sm:px-10">
+        <form th:action="@{/currencies/save}" th:object="${currencyDto}" method="post" class="space-y-6">
+            <input type="hidden" th:field="*{id}" />
+
+            <div>
+                <label for="code" class="block text-sm font-semibold text-slate-300 flex items-center gap-1">🔤 Code (e.g., USD)</label>
+                <div class="mt-1">
+                    <input type="text" id="code" th:field="*{code}" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400 transition duration-150 font-mono uppercase tracking-wider" th:classappend="${#fields.hasErrors('code')} ? 'border-rose-500 focus:ring-rose-500/30 focus:border-rose-500' : ''" />
                 </div>
-                <div class="card-body">
-                    <form th:action="@{/currencies/save}" th:object="${currencyDto}" method="post">
-                        <input type="hidden" th:field="*{id}" />
-
-                        <div class="mb-3">
-                            <label for="code" class="form-label fw-bold">Code (e.g., USD):</label>
-                            <input type="text" id="code" th:field="*{code}" class="form-control" th:classappend="${#fields.hasErrors('code')} ? 'is-invalid' : ''" />
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="name" class="form-label fw-bold">Name:</label>
-                            <input type="text" id="name" th:field="*{name}" class="form-control" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''" />
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-                        </div>
-
-                        <div class="d-flex justify-content-end gap-2 mt-4">
-                            <a th:href="@{/currencies}" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-success">Save Currency</button>
-                        </div>
-                    </form>
-                </div>
+                <p class="mt-1.5 text-xs text-rose-400 flex items-center gap-1" th:if="${#fields.hasErrors('code')}">⚠️ <span th:errors="*{code}"></span></p>
             </div>
-        </div>
+
+            <div>
+                <label for="name" class="block text-sm font-semibold text-slate-300 flex items-center gap-1">🏷️ Name</label>
+                <div class="mt-1">
+                    <input type="text" id="name" th:field="*{name}" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400 transition duration-150" th:classappend="${#fields.hasErrors('name')} ? 'border-rose-500 focus:ring-rose-500/30 focus:border-rose-500' : ''" />
+                </div>
+                <p class="mt-1.5 text-xs text-rose-400 flex items-center gap-1" th:if="${#fields.hasErrors('name')}">⚠️ <span th:errors="*{name}"></span></p>
+            </div>
+
+            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-slate-800">
+                <a th:href="@{/currencies}" class="px-4 py-2 bg-slate-800 border border-slate-700 text-slate-300 font-medium text-sm rounded-xl hover:bg-slate-700 transition duration-150 flex items-center gap-1">🚫 Cancel</a>
+                <button type="submit" class="px-4 py-2 bg-cyan-400 text-slate-950 font-bold text-sm rounded-xl hover:bg-cyan-300 transition duration-150 shadow-md shadow-cyan-500/10 flex items-center gap-1">💾 Save Asset</button>
+            </div>
+        </form>
     </div>
 </div>
 </body>
