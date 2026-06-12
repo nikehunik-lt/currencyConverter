@@ -19,14 +19,12 @@ public class LoggingAspect {
         log.debug("Entering method: {}", methodName);
 
         long start = System.currentTimeMillis();
+
         try {
-            Object result = joinPoint.proceed();
+            return joinPoint.proceed();
+        } finally {
             long executionTime = System.currentTimeMillis() - start;
             log.info("Method {} executed in {} ms", methodName, executionTime);
-            return result;
-        } catch (Throwable throwable) {
-            log.error("Exception in method {}: {}", methodName, throwable.getMessage());
-            throw throwable;
         }
     }
 }
