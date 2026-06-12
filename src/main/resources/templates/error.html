@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="px-6 py-6">
-            <p class="text-sm text-slate-300 font-medium bg-slate-950 border border-slate-800 rounded-xl p-4 font-mono break-words" th:text="${errorMessage}">Something went wrong.</p>
+            <p class="text-sm text-slate-300 font-medium bg-slate-950 border border-slate-800 rounded-xl p-4 font-mono break-words" th:text="${errorMessage != null ? errorMessage : (message != null ? message : 'System malfunction or session parsing error')}">Something went wrong.</p>
         </div>
         <div class="bg-slate-950/40 px-6 py-4 flex justify-end border-t border-slate-800">
             <a th:href="@{/currencies}" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-xl hover:bg-indigo-500 transition duration-150 shadow-md gap-1">🏠 Return Home</a>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Currencies Dashboard</title>
@@ -20,6 +20,12 @@
                         <a th:href="@{/currencies}" class="border-b-2 border-cyan-400 px-1 pt-1 text-sm font-semibold text-slate-100 flex items-center gap-1.5">💵 Currencies</a>
                         <a th:href="@{/rates}" class="border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-slate-400 hover:text-slate-200 hover:border-slate-700 flex items-center gap-1.5">📈 Exchange Rates</a>
                     </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-xs font-mono bg-slate-800 px-2.5 py-1 rounded-md text-slate-400 flex items-center gap-1">👤 <span sec:authentication="name">Username</span></span>
+                    <form th:action="@{/logout}" method="post" class="inline">
+                        <button type="submit" class="px-3 py-1.5 text-xs font-semibold rounded-lg text-rose-400 bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 transition duration-150 flex items-center gap-1">🚪 Log Out</button>
+                    </form>
                 </div>
             </div>
         </div>
